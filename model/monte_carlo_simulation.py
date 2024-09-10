@@ -13,25 +13,25 @@ def monte_carlo_simulation(fechamento, num_simulations, num_days):
         fechamento_series = fechamento_series.str.replace(
             ',', '.', regex=False).astype(float)
 
-    # Calcula os retornos logarítmicos diários
+    # Calcula os retornos logarítmicos diários a partir da variação percentual dos preços de fechamento. Isso ajuda a normalizar os retornos e capturar melhor a volatilidade dos preços.
     log_returns = np.log(1 + fechamento_series.pct_change().dropna())
 
-    # Média e variância dos retornos logarítmicos
+    # Calcula a média e a variância dos retornos logarítmicos, que serão usados para gerar as simulações aleatórias.
     mean_log_return = log_returns.mean()
     variance_log_return = log_returns.var()
 
-    # Gerando simulações de Monte Carlo
+    # Inicializa matrizes para armazenar os resultados das simulações (preços simulados ao longo dos dias) e os valores finais (preço ao final de cada simulação).
     simulations = np.zeros((num_simulations, num_days))
     final_values = np.zeros(num_simulations)
 
-    # Adiciona um ajuste para a média se ela for negativa
+    # Ajusta a média dos retornos para evitar a influência de uma média negativa que poderia enviesar as simulações para baixo.
     adjusted_mean = mean_log_return if mean_log_return > 0 else 0
 
     for i in range(num_simulations):
-        random_shocks = np.random.normal(
+        random_shocks = np.random.normal( #gera números randômicos que seguem a distribuição gaussiana
             loc=adjusted_mean, scale=np.sqrt(variance_log_return), size=num_days)
-        simulations[i] = fechamento_series.iloc[-1] * \
-            np.exp(np.cumsum(random_shocks))
+        simulations[i] = fechamento_series.iloc[-1] * \ #último preço de fechamento do ativo na série histórica
+            np.exp(np.cumsum(random_shocks)) #soma cumulativa dos choques aleatórios ao longo dos dias
         final_values[i] = simulations[i][-1]
 
     return simulations, final_values
