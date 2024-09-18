@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
-import data
 
 
 def monte_carlo_simulation(fechamento, num_simulations, num_days):
@@ -35,31 +33,3 @@ def monte_carlo_simulation(fechamento, num_simulations, num_days):
         final_values[i] = simulations[i][-1]
 
     return simulations, final_values
-
-
-def plot_simulation(simulations, final_values):
-    plt.figure(figsize=(12, 8))
-
-    # Plota as simulações
-    for i in range(simulations.shape[0]):
-        color = 'green' if final_values[i] > simulations[i][0] else 'red'
-        plt.plot(simulations[i], color=color, alpha=0.6, linewidth=1.5)
-
-    # Adiciona uma linha mostrando a média dos valores finais
-    mean_final_value = np.mean(final_values)
-    plt.axhline(y=mean_final_value, color='blue', linestyle='--',
-                label=f'Média Final: {mean_final_value:.2f}')
-
-    # Adiciona rótulos e título
-    plt.title('Simulação de Monte Carlo - Fechamento BBAS3', fontsize=16)
-    plt.xlabel('Dias', fontsize=14)
-    plt.ylabel('Preço Simulado', fontsize=14)
-
-    # Adiciona a legenda
-    plt.legend()
-
-    # Adiciona uma grade
-    plt.grid(True, linestyle='--', alpha=0.6)
-
-    # Exibe o gráfico
-    plt.show()
