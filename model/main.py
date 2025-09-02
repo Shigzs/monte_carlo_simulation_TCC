@@ -11,7 +11,7 @@ def main():
     fechamento = data.fechado_planilha_2022_2023
 
     # Parâmetros para a simulação
-    num_simulations = 100  # Número de simulações
+    num_simulations = 100000  # Número de simulações
     num_days = 365  # Número de dias para cada simulação
 
     # Executa a simulação de Monte Carlo
