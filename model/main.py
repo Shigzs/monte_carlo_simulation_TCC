@@ -1,26 +1,37 @@
-import data
 import plot
-import monte_carlo_simulation as mcs
+import data
+
+# Definindo a ação (Stock) a ser utilizada
+stock = "BBAS3.SA"
+
+# Definindo a data de início dos dados a serem recolhidos
+start_date = '2025-1-1'
+
+# Inicializando o data frame com os dados recolhidos
+Data = data.import_stock_data(stock, start=start_date)
+
+# Definindo o número de simulações a serem realizadas
+num_simulations = 1000
+
+# Definindo o número de dias a serem simulados
+num_days = 100
+
+# Definindo o último valor conhecido da ação escolhida
+last_price = Data['Close'].iloc[-1]
+
+# Definindo o retorno logarítmico dos dados
+log_return = data.log_returns(Data)
+
+# Carregando um data frame com os dados simulados
+simulation_dataframe = data.run_monteCarlo(
+    num_simulations, num_days, last_price, log_return)
 
 
 def main():
-    # Inicializa os dados
-    data.initialize_data()
-
-    # Escolhe a série de dados de fechamento
-    fechamento = data.fechado_planilha_2022_2023
-
-    # Parâmetros para a simulação
-    num_simulations = 100000  # Número de simulações
-    num_days = 365  # Número de dias para cada simulação
-
-    # Executa a simulação de Monte Carlo
-    simulations, final_values = mcs.monte_carlo_simulation(
-        fechamento, num_simulations, num_days)
-
-    # Plota as simulações e os valores reais simultaneamente
-    plot.plotar(fechamento, simulations, final_values)
+    # plot.plot_closed_price(Data, stock, start_date)
+    # plot.plot_log_return(log_return, stock, start_date)
+    plot.plot_simulation(simulation_dataframe, stock, last_price, num_days)
 
 
 if __name__ == "__main__":
-    main()
+    main() in ()
