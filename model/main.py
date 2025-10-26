@@ -1,37 +1,47 @@
-import plot
-import data
+# main_oo.py (Versão Simplificada)
 
-# Definindo a ação (Stock) a ser utilizada
-stock = "BBAS3.SA"
+from StockData import StockData, MonteCarloSimulator
+from ploting_tool import PlottingTool
 
-# Definindo a data de início dos dados a serem recolhidos
+# --- Parâmetros de Configuração ---
+stock_ticker = "BBAS3.SA"
 start_date = '2025-1-1'
-
-# Inicializando o data frame com os dados recolhidos
-Data = data.import_stock_data(stock, start=start_date)
-
-# Definindo o número de simulações a serem realizadas
 num_simulations = 1000
-
-# Definindo o número de dias a serem simulados
 num_days = 100
-
-# Definindo o último valor conhecido da ação escolhida
-last_price = Data['Close'].iloc[-1]
-
-# Definindo o retorno logarítmico dos dados
-log_return = data.log_returns(Data)
-
-# Carregando um data frame com os dados simulados
-simulation_dataframe = data.run_monteCarlo(
-    num_simulations, num_days, last_price, log_return)
+# -----------------------------------
 
 
-def main():
-    # plot.plot_closed_price(Data, stock, start_date)
-    # plot.plot_log_return(log_return, stock, start_date)
-    plot.plot_simulation(simulation_dataframe, stock, last_price, num_days)
+def main_oo():
+    # 1. Obter e processar dados
+    stock_data_handler = StockData(stock_ticker, start_date)
+
+    if stock_data_handler.data.empty or stock_data_handler.last_price is None:
+        print("Não foi possível continuar devido à falta de dados.")
+        return
+
+    # 2. Executar a simulação de Monte Carlo
+    mc_simulator = MonteCarloSimulator(
+        last_price=stock_data_handler.last_price,
+        daily_volatility=stock_data_handler.daily_volatility,
+        num_simulations=num_simulations,
+        num_days=num_days
+    )
+    mc_simulator.run_simulation()
+
+    # Obter estatísticas para plotagem
+    simulation_stats = mc_simulator.get_statistics()
+
+    # 3. Plotar Resultados
+
+    # Chamada única para o novo método combinado
+    PlottingTool.plot_montecarlo_results(
+        mc_simulator.simulation_dataframe,
+        stock_ticker,
+        stock_data_handler.last_price,
+        num_days,
+        simulation_stats
+    )
 
 
 if __name__ == "__main__":
-    main() in ()
+    main_oo()

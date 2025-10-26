@@ -1,11 +1,18 @@
-contourpy-1.3.3 
-cycler-0.12.1 
-fonttools-4.60.1 
-kiwisolver-1.4.9 
-matplotlib-3.10.6 
-numpy-2.3.3 
-packaging-25.0 
-pillow-11.3.0 
-pyparsing-3.2.5 
-python-dateutil-2.9.0.post0 six-1.17.0
-python version 3.12.5
+# Simulação de Monte Carlo para Preços de Ações (OO)
+
+Este projeto implementa uma simulação de Monte Carlo para projetar possíveis caminhos futuros do preço de uma ação, baseando-se na sua volatilidade histórica. O código foi refatorado para uma estrutura Orientada a Objetos (OO), separando a obtenção de dados, a simulação e a plotagem em classes dedicadas.
+
+## ⚙️ Instalação
+
+Para rodar o script, você precisa do Python instalado e das seguintes bibliotecas.
+
+### Pré-requisitos
+
+Certifique-se de ter o `pip` (gerenciador de pacotes do Python) instalado.
+
+### Instalação das Dependências
+
+Instale todas as bibliotecas necessárias com o seguinte comando. Note que `seaborn` foi adicionado para gerar o histograma de distribuição final.
+
+```bash
+pip install numpy pandas yfinance matplotlib seaborn
