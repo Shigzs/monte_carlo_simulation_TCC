@@ -15,7 +15,7 @@ class StockData:
         self.data = self._import_stock_data()
         self.log_returns = self._calculate_log_returns()
         self.daily_volatility = self._calculate_volatility()
-        self.last_price = self.data['Close'].iloc[-1] if not self.data.empty else None
+        self.last_price = self.data['Close'].iloc[-6] if not self.data.empty else None
 
     def _import_stock_data(self):
         """

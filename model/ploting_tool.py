@@ -62,6 +62,7 @@ class PlottingTool:
         upper_bound = stats["upper_bound"]
 
         textstr = '\n'.join((
+            f"Valor inicial {last_price:.2f}",
             f"Valor esperado em {num_days} dias: {mean_price:.2f}",
             f"Intervalo de 95%: ({lower_bound:.2f}  -  {upper_bound:.2f})"
         ))

@@ -6,8 +6,8 @@ from ploting_tool import PlottingTool
 # --- Parâmetros de Configuração ---
 stock_ticker = "BBAS3.SA"
 start_date = '2025-1-1'
-num_simulations = 1000
-num_days = 100
+num_simulations = 100000
+num_days = 7
 # -----------------------------------
 
 
