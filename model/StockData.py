@@ -15,7 +15,8 @@ class StockData:
         self.data = self._import_stock_data()
         self.log_returns = self._calculate_log_returns()
         self.daily_volatility = self._calculate_volatility()
-        self.last_price = self.data['Close'].iloc[-6] if not self.data.empty else None
+        self.last_price = self.data['Close'].iloc[-5] if not self.data.empty else None
+        self.today_price = self.data['Close'].iloc[-1] if not self.data.empty else None
 
     def _import_stock_data(self):
         """
@@ -59,8 +60,9 @@ class MonteCarloSimulator:
     Realiza a simulação de Monte Carlo para o preço da ação.
     """
 
-    def __init__(self, last_price, daily_volatility, num_simulations, num_days):
+    def __init__(self, last_price, today_price, daily_volatility, num_simulations, num_days):
         self.last_price = last_price
+        self.today_price = today_price
         self.daily_volatility = daily_volatility
         self.num_simulations = num_simulations
         self.num_days = num_days

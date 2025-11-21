@@ -1,10 +1,9 @@
-# plotting_tool.py (Versão Combinada)
-
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-# Importar se necessário para tipagem, embora as funções não usem diretamente
-import pandas as pd
+import locale
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 
 class PlottingTool:
@@ -35,9 +34,9 @@ class PlottingTool:
         plt.grid(True)
         plt.show()
 
-    # NOVO MÉTODO COMBINADO: Plota Simulação (Caminhos) e Histograma (Distribuição Final)
+    # Plota Simulação (Caminhos) e Histograma (Distribuição Final)
     @staticmethod
-    def plot_montecarlo_results(simulation_dataframe, stock, last_price, num_days, stats):
+    def plot_montecarlo_results(simulation_dataframe, stock, last_price, today_price, num_days, stats):
 
         # Cria uma figura com dois subplots: 1 linha, 2 colunas
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
@@ -61,11 +60,30 @@ class PlottingTool:
         lower_bound = stats["lower_bound"]
         upper_bound = stats["upper_bound"]
 
-        textstr = '\n'.join((
-            f"Valor inicial {last_price:.2f}",
-            f"Valor esperado em {num_days} dias: {mean_price:.2f}",
-            f"Intervalo de 95%: ({lower_bound:.2f}  -  {upper_bound:.2f})"
-        ))
+        formatted_last_price = locale.format_string(
+            "%.2f", last_price, grouping=True)
+        formatted_today_price = locale.format_string(
+            "%.2f", today_price, grouping=True)
+        formatted_mean_price = locale.format_string(
+            "%.2f", mean_price, grouping=True)
+        formatted_lower_bound = locale.format_string(
+            "%.2f", lower_bound, grouping=True)
+        formatted_upper_bound = locale.format_string(
+            "%.2f", upper_bound, grouping=True)
+
+        if today_price is None:
+            textstr = '\n'.join((
+                f"Valor inicial {formatted_last_price}",
+                f"Valor esperado em {num_days} dias: {formatted_mean_price}",
+                f"Intervalo de 95%: ({formatted_lower_bound} - {formatted_upper_bound})"
+            ))
+        else:
+            textstr = '\n'.join((
+                f"Valor inicial {formatted_last_price}",
+                f"Valor esperado em {num_days} dias: {formatted_mean_price}",
+                f"Intervalo de 95%: ({formatted_lower_bound} - {formatted_upper_bound})",
+                f"Valor real no dia de hoje: {formatted_today_price}"
+            ))
 
         ax1.text(
             0.05, 0.95, textstr,
@@ -93,7 +111,8 @@ class PlottingTool:
 
         # Linha da Média
         ax2.axvline(mean_price, color='g', linestyle='--', linewidth=2,
-                    label=f"Média: {mean_price:.2f}")
+                    label=f"Média: {locale.format_string(
+                        "%.2f", mean_price, grouping=True)}")
 
         # Linhas do Intervalo de Segurança de 95%
         ax2.axvline(lower_bound, color='r', linestyle='-', linewidth=2,
