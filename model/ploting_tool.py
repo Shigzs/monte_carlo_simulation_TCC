@@ -82,7 +82,7 @@ class PlottingTool:
                 f"Valor inicial {formatted_last_price}",
                 f"Valor esperado em {num_days} dias: {formatted_mean_price}",
                 f"Intervalo de 95%: ({formatted_lower_bound} - {formatted_upper_bound})",
-                f"Valor real no dia de hoje: {formatted_today_price}"
+                f"Valor real no dia 3 de novembro: {formatted_today_price}"
             ))
 
         ax1.text(

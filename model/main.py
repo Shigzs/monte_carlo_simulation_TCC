@@ -4,12 +4,12 @@ from StockData import StockData, MonteCarloSimulator
 from ploting_tool import PlottingTool
 
 # --- Parâmetros de Configuração ---
-# stock_ticker = "BBAS3.SA"  # Banco do Brasil
+stock_ticker = "BBAS3.SA"  # Banco do Brasil
 # stock_ticker = "^BVSP"  # IBOVESPA
-stock_ticker = "PETR4.SA"  # Petrobrás
+# stock_ticker = "PETR4.SA"  # Petrobrás
 start_date = '2025-1-1'
 num_simulations = 100000
-num_days = 7
+num_days = 15
 # -----------------------------------
 
 
